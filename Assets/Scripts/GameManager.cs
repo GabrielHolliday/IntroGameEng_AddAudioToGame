@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Threading;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +34,9 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     //private GameState LastgameState;
 
+    //cancelation tokens
+    public CancellationTokenSource cancelationTokenSource;
+
 
     // Specifies this script and all its children as a singleton, Awake function below deletes any extra copies of this onbject so that there exists only a "Single" instance of itself
     public static GameManager Instance;
@@ -51,7 +56,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        sfxManager.BGMusicMainMenu();        
+        cancelationTokenSource = new CancellationTokenSource();
+        EditorApplication.playModeStateChanged += closingGame;
+        sfxManager.BGMusicMainMenu();
+    }
+    private void closingGame(PlayModeStateChange state)
+    {
+        if (state != PlayModeStateChange.ExitingPlayMode) return;
+        cancelationTokenSource.Cancel();
+
     }
 
 
