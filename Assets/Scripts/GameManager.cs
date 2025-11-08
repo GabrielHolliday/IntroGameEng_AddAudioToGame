@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Threading;
-using UnityEditor;
+//using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,15 +57,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         cancelationTokenSource = new CancellationTokenSource();
-        EditorApplication.playModeStateChanged += closingGame;
+        //EditorApplication.playModeStateChanged += closingGame;
         sfxManager.BGMusicMainMenu();
     }
-    private void closingGame(PlayModeStateChange state)
+
+    /*
+    private void closingGame(PlayModeStateChange state) added for testing, remove for build
     {
         if (state != PlayModeStateChange.ExitingPlayMode) return;
         cancelationTokenSource.Cancel();
 
     }
+    */
 
 
     // Update is called once per frame
